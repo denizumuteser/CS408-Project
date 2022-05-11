@@ -21,6 +21,7 @@ namespace CS408Project_Server
 
         bool terminating = false;
         bool listening = false;
+        bool tried = false;
 
         public Form1()
         {
@@ -110,6 +111,7 @@ namespace CS408Project_Server
                         {
                             //cannot connect
                             //send message to server console
+                            tried = true;
                             richTextBox_Console.AppendText(username + " tried to connect to the server but cannot!.\n");
                             //send message to client
                             Byte[] logtoclient = Encoding.Default.GetBytes("0|Please enter a valid username\n");
@@ -136,9 +138,13 @@ namespace CS408Project_Server
                 }
                 catch
                 {
-                    if (!terminating)
+                    if (!terminating && !tried)
                     {
                         richTextBox_Console.AppendText("Client has disconnected.\n");
+                    }
+                    if (tried)
+                    {
+                        tried = false;
                     }
                     thisClient.Close();
                     clientSockets.Remove(thisClient);
