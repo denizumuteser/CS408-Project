@@ -1,0 +1,9 @@
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.exe.config
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.exe
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.pdb
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csprojAssemblyReference.cache
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Properties.Resources.resources
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.GenerateResource.cache
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.CoreCompileInputs.cache
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.exe
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.pdb
