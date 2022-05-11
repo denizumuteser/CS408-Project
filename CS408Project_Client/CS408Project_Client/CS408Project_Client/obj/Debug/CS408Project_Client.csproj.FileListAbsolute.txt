@@ -7,3 +7,13 @@ D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Clie
 D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.CoreCompileInputs.cache
 D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.exe
 D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.pdb
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.exe.config
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.exe
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.pdb
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csprojAssemblyReference.cache
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Properties.Resources.resources
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.GenerateResource.cache
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.CoreCompileInputs.cache
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.exe
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.pdb
+D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Form1.resources
