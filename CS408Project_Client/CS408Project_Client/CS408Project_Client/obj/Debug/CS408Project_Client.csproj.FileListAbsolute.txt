@@ -17,3 +17,4 @@ D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Clie
 D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.exe
 D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.pdb
 D:\github repo\CS408 Project\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Form1.resources
+D:\Repos\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Form1.resources

@@ -44,7 +44,7 @@ namespace CS408Project_Client
                 try
                 {
                     clientSocket.Connect(IP, portNumber);
-                    Byte[] buffer = Encoding.Default.GetBytes(header);
+                    Byte[] buffer = Encoding.Default.GetBytes(header+"|"+username);
                     clientSocket.Send(buffer);
 
                     //textBoxUsername.Enabled = true;
