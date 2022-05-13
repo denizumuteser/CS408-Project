@@ -27,6 +27,7 @@ namespace CS408Project_Server
         {
             Control.CheckForIllegalCrossThreadCalls = false;
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
+            Console.WriteLine("Started");
             InitializeComponent();
         }
 
@@ -91,6 +92,7 @@ namespace CS408Project_Server
 
                     string incomingMessage = Encoding.Default.GetString(buffer);
                     incomingMessage = incomingMessage.Substring(0, incomingMessage.IndexOf('\0'));
+                    Console.WriteLine(incomingMessage);
                     String[] messages = incomingMessage.Split('|');
                     //classify coming message according to header
                     if (messages[0] == "CONNECT_REQUEST")
@@ -102,9 +104,9 @@ namespace CS408Project_Server
                         {
                             //connected
                             //send message to server console
-                            richTextBox_Console.AppendText(username + "has connected.\n");
+                            richTextBox_Console.AppendText(username + " has connected.\n");
                             //send message to client
-                            Byte[] logtoclient = Encoding.Default.GetBytes("1|Hello" + username + "! You are connected to the server.\n");
+                            Byte[] logtoclient = Encoding.Default.GetBytes("1|Hello " + username + "! You are connected to the server.\n");
                             thisClient.Send(logtoclient);  
                         }
                         else
@@ -155,9 +157,10 @@ namespace CS408Project_Server
 
         private void postRetriever(string username, Socket thisclient)
         {
+            Console.WriteLine("1");
             string all_posts = "";
             //get posts from log
-            var lines = File.ReadLines(@"database.txt");
+            var lines = File.ReadLines(@"../../posts.log");
             foreach (var line in lines)
             {
                 all_posts += line+"\n";
@@ -181,8 +184,9 @@ namespace CS408Project_Server
 
         private int getLastPostId()
         {
+            Console.WriteLine("2");
             int lastid = 0;
-            var lines = File.ReadLines(@"posts.log");
+            var lines = File.ReadLines(@"../../posts.log");
             foreach (var line in lines)
             {
                 lastid += 1;
@@ -205,7 +209,8 @@ namespace CS408Project_Server
 
         private bool isUsernameExist(string username)
         {
-            var lines = File.ReadLines(@"database.txt");
+            Console.WriteLine("3");
+            var lines = File.ReadLines(@"../../user-db.txt");
             foreach (var line in lines)
             {
                 if (username == line)
