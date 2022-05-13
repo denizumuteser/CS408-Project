@@ -44,7 +44,7 @@ namespace CS408Project_Client
                 try
                 {
                     clientSocket.Connect(IP, portNumber);
-                    Byte[] buffer = Encoding.Default.GetBytes(header);
+                    Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
                     clientSocket.Send(buffer);
 
                     //textBoxUsername.Enabled = true;
@@ -77,11 +77,10 @@ namespace CS408Project_Client
 
                     string incomingMessage = Encoding.Default.GetString(buffer);
                     incomingMessage = incomingMessage.Substring(0, incomingMessage.IndexOf("\0"));
-                    String[] messages = incomingMessage.Split('|');
 
-
-                    if (messages[0] == "1")
+                    if (incomingMessage[0] == '1')
                     {
+                        string[] messages = incomingMessage.Split('|');
                         richTextBox.AppendText("[Server]: " + messages[1]);
                         //connected = true;
                         //attemptingConnect = false;
@@ -94,21 +93,38 @@ namespace CS408Project_Client
 
                     }
 
-                    else if (messages[0] == "0")
+                    else if (incomingMessage[0] == '0')
                     {
+                        string[] messages = incomingMessage.Split('|');
                         richTextBox.AppendText("[Server]: " + messages[1]);
                         connected = false;
                         //attemptingConnect = false;
                     }
 
-                    else if (messages[0] == "2")
+                    else if (incomingMessage[0] == '2')
                     {
-                        String[] allPosts = messages[1].Split('$');
-                        richTextBox.AppendText("[Server]: " + allPosts);
+                        string[] messages = incomingMessage.Split('$');
+                        string username = textBoxUsername.Text;
+                        String[] allPosts = messages[1].Split('\n');
+                        richTextBox.AppendText("Showing all posts from clients:\n");
+
+                        for (int i = 0; i<allPosts.Length; i++)
+                        {
+                            string[] messageParts = allPosts[i].Split('|');
+                            if(messageParts[0] == username)
+                            {
+                                continue;
+                            }
+                            richTextBox.AppendText("Username: " + allPosts[0] + '\n');
+                            richTextBox.AppendText("Post ID: " + allPosts[1] + '\n');
+                            richTextBox.AppendText("Post: " + allPosts[2] + '\n');
+                            richTextBox.AppendText("Time: " + allPosts[3] + '\n');
+                        }
                     }
 
-                    else if (messages[0] == "3")
+                    else if (incomingMessage[0] == '3')
                     {
+                        string[] messages = incomingMessage.Split('|');
                         richTextBox.AppendText("[Server]: " + messages[1]);
                     }
                 }
@@ -118,7 +134,7 @@ namespace CS408Project_Client
                     {
                         richTextBox.AppendText("The server has disconnected.\n");
 
-                        textBoxUsername.Enabled = false;
+                        textBoxUsername.Enabled = true;
                         textBoxIP.Enabled = true;
                         textBoxPort.Enabled = true;
 
@@ -141,7 +157,9 @@ namespace CS408Project_Client
 
             if (connected )
             {
-                string toSend = header + "|" + username + "|" + message;
+                string currentTime = DateTime.Now.ToString("s");
+                Console.WriteLine(currentTime + '\n'); //
+                string toSend = header + "|" + username + "|" + message + "|" + currentTime;
                 Byte[] buffer = Encoding.Default.GetBytes(toSend);
                 clientSocket.Send(buffer);
             }
