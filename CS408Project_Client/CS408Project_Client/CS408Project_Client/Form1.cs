@@ -36,7 +36,7 @@ namespace CS408Project_Client
 
             if(username == "")
             {
-                richTextBox.AppendText("You must enter a username");
+                richTextBox.AppendText("You must enter a username\n");
             }
 
             else if (Int32.TryParse(textBoxPort.Text, out portNumber))
@@ -44,11 +44,8 @@ namespace CS408Project_Client
                 try
                 {
                     clientSocket.Connect(IP, portNumber);
-<<<<<<< HEAD
                     Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
-=======
-                    Byte[] buffer = Encoding.Default.GetBytes(header+"|"+username);
->>>>>>> 4ed990fd1483ece3a04b062606b1393cee3b078d
+
                     clientSocket.Send(buffer);
 
                     //textBoxUsername.Enabled = true;
@@ -94,7 +91,10 @@ namespace CS408Project_Client
                         textBoxIP.Enabled = false;
                         textBoxPort.Enabled = false;
                         textBoxUsername.Enabled = false;
-
+                        
+                        textBoxPost.Enabled = true;
+                        buttonAllPosts.Enabled = true;
+                        buttonSend.Enabled = true;
                     }
 
                     else if (incomingMessage[0] == '0')
@@ -112,17 +112,20 @@ namespace CS408Project_Client
                         String[] allPosts = messages[1].Split('\n');
                         richTextBox.AppendText("Showing all posts from clients:\n");
 
-                        for (int i = 0; i<allPosts.Length; i++)
+
+                        for (int i = 0; i<allPosts.Length-1; i++)
                         {
+                            //Console.WriteLine(allPosts[i]);
                             string[] messageParts = allPosts[i].Split('|');
+
                             if(messageParts[0] == username)
                             {
                                 continue;
                             }
-                            richTextBox.AppendText("Username: " + allPosts[0] + '\n');
-                            richTextBox.AppendText("Post ID: " + allPosts[1] + '\n');
-                            richTextBox.AppendText("Post: " + allPosts[2] + '\n');
-                            richTextBox.AppendText("Time: " + allPosts[3] + '\n');
+                            richTextBox.AppendText("Username: " + messageParts[0] + '\n');
+                            richTextBox.AppendText("Post ID: " + messageParts[1] + '\n');
+                            richTextBox.AppendText("Post: " + messageParts[2] + '\n');
+                            richTextBox.AppendText("Time: " + messageParts[3] + "\n\n");
                         }
                     }
 
@@ -136,7 +139,7 @@ namespace CS408Project_Client
                 {
                     if (!terminating)
                     {
-                        richTextBox.AppendText("The server has disconnected.\n");
+                        //richTextBox.AppendText("The server has disconnected.\n");
 
                         textBoxUsername.Enabled = true;
                         textBoxIP.Enabled = true;
@@ -144,6 +147,10 @@ namespace CS408Project_Client
 
                         buttonDisconnect.Enabled = false;
                         buttonConnect.Enabled = true;
+
+                        textBoxPost.Enabled = false;
+                        buttonAllPosts.Enabled = false;
+                        buttonSend.Enabled = false;
                     }
 
                     clientSocket.Close();
@@ -159,13 +166,14 @@ namespace CS408Project_Client
             string username = textBoxUsername.Text;
             string header = "POST";
 
-            if (connected )
+            if (connected)
             {
                 string currentTime = DateTime.Now.ToString("s");
-                Console.WriteLine(currentTime + '\n'); //
+                //Console.WriteLine(currentTime + '\n'); //
                 string toSend = header + "|" + username + "|" + message + "|" + currentTime;
                 Byte[] buffer = Encoding.Default.GetBytes(toSend);
                 clientSocket.Send(buffer);
+                richTextBox.AppendText(username + ": " + message + '\n');
             }
         }
 
@@ -187,7 +195,15 @@ namespace CS408Project_Client
             connected = false;
             //attemptingConnect = false;
             terminating = true;
+
+            string header = "DISCONNECTED";
+            string username = textBoxUsername.Text;
+            Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
+            clientSocket.Send(buffer);
+
             clientSocket.Close();
+            richTextBox.AppendText("Successfully disconnected\n");
+
             textBoxPost.Enabled = false;
 
             textBoxUsername.Enabled = true;
@@ -202,6 +218,13 @@ namespace CS408Project_Client
 
         private void Form1_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (connected)
+            {
+                string header = "DISCONNECTED";
+                string username = textBoxUsername.Text;
+                Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
+                clientSocket.Send(buffer);
+            }
             connected = false;
             //attemptingConnect = false;
             terminating = true;
