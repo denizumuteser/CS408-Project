@@ -21,7 +21,6 @@ namespace CS408Project_Server
 
         bool terminating = false;
         bool listening = false;
-        bool tried = false;
 
         public Form1()
         {
@@ -113,7 +112,6 @@ namespace CS408Project_Server
                         {
                             //cannot connect
                             //send message to server console
-                            tried = true;
                             richTextBox_Console.AppendText(username + " tried to connect to the server but cannot!.\n");
                             //send message to client
                             Byte[] logtoclient = Encoding.Default.GetBytes("0|Please enter a valid username\n");
@@ -137,16 +135,16 @@ namespace CS408Project_Server
                         //handle post retriever
                         postRetriever(username, thisClient);
                     }
+                    else if(messages[0] == "DISCONNECTED")
+                    {
+                        richTextBox_Console.AppendText(messages[1] + " has disconnected.\n");
+                    }
                 }
                 catch
                 {
-                    if (!terminating && !tried)
+                    if (!terminating)
                     {
                         richTextBox_Console.AppendText("Client has disconnected.\n");
-                    }
-                    if (tried)
-                    {
-                        tried = false;
                     }
                     thisClient.Close();
                     clientSockets.Remove(thisClient);
@@ -173,12 +171,17 @@ namespace CS408Project_Server
         private void handlePost(string username, string post, string timestamp)
         {
             //print server console
-            richTextBox_Console.AppendText(username + "has sent a post:\n");
+            richTextBox_Console.AppendText(username + " has sent a post:\n");
             richTextBox_Console.AppendText(post+"\n");
             //add post to posts.log
-            using (StreamWriter w = File.AppendText("posts.log"))
+            if (!File.Exists(@"../../posts.log"))
             {
-                w.WriteLine(username+"|"+(getLastPostId()+1)+post+"|"+timestamp);
+                Console.WriteLine("no path");
+            }
+            int id = getLastPostId() + 1;
+            using (StreamWriter w = File.AppendText(@"../../posts.log"))
+            {
+                w.WriteLine(username+"|"+id+"|"+post+"|"+timestamp);
             }
         }
 
@@ -202,7 +205,7 @@ namespace CS408Project_Server
             foreach (var socket in clientSockets)
             {
                 Byte[] logtoclient = Encoding.Default.GetBytes("3|Server has disconnected!");
-                socket.Send(logtoclient);
+                socket.Send(logtoclient); //
             }
             Environment.Exit(0); //release environment resources
         }

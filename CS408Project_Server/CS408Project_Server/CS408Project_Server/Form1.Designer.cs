@@ -39,6 +39,7 @@ namespace CS408Project_Server
             // 
             this.richTextBox_Console.Location = new System.Drawing.Point(24, 77);
             this.richTextBox_Console.Name = "richTextBox_Console";
+            this.richTextBox_Console.ReadOnly = true;
             this.richTextBox_Console.Size = new System.Drawing.Size(749, 353);
             this.richTextBox_Console.TabIndex = 0;
             this.richTextBox_Console.Text = "";
