@@ -12,6 +12,10 @@ using System.Windows.Forms;
 
 namespace CS408Project_Client
 {
+
+
+    
+
     public partial class Form1 : Form
     {
         bool terminating = false;
@@ -78,6 +82,8 @@ namespace CS408Project_Client
 
                     string incomingMessage = Encoding.Default.GetString(buffer);
                     incomingMessage = incomingMessage.Substring(0, incomingMessage.IndexOf("\0"));
+
+
 
                     if (incomingMessage[0] == '1')
                     {
@@ -173,6 +179,7 @@ namespace CS408Project_Client
                 string toSend = header + "|" + username + "|" + message + "|" + currentTime;
                 Byte[] buffer = Encoding.Default.GetBytes(toSend);
                 clientSocket.Send(buffer);
+                richTextBox.AppendText("You have succesfully sent a post!" + '\n');
                 richTextBox.AppendText(username + ": " + message + '\n');
             }
         }

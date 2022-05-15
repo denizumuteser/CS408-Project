@@ -14,6 +14,14 @@ using System.Windows.Forms;
 
 namespace CS408Project_Server
 {
+
+    
+    static class logged
+    {
+        public static List<string> clientList = new List<string>();
+        public static bool isExists = false;
+        
+    }
     public partial class Form1 : Form
     {
         Socket serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
@@ -81,6 +89,7 @@ namespace CS408Project_Server
         private void Receive(Socket thisClient)
         {
             bool connected = true;
+            //logged.clientList.Add("lili");
 
             while (connected && !terminating)
             {
@@ -94,12 +103,13 @@ namespace CS408Project_Server
                     Console.WriteLine(incomingMessage);
                     String[] messages = incomingMessage.Split('|');
                     //classify coming message according to header
+
                     if (messages[0] == "CONNECT_REQUEST")
                     {
                         string username = messages[1];
 
                         //if user is already registered
-                        if (isUsernameExist(username))
+                        if (isUsernameExist(username) )
                         {
                             //connected
                             //send message to server console
@@ -107,6 +117,12 @@ namespace CS408Project_Server
                             //send message to client
                             Byte[] logtoclient = Encoding.Default.GetBytes("1|Hello " + username + "! You are connected to the server.\n");
                             thisClient.Send(logtoclient);  
+                        }
+                        else if (logged.isExists) 
+                        { 
+                            richTextBox_Console.AppendText(username + " has already connected! \n");
+                            Byte[] logtoclient = Encoding.Default.GetBytes("0|" + username + " has already connected! \n");
+                            thisClient.Send(logtoclient);
                         }
                         else
                         {
@@ -137,6 +153,9 @@ namespace CS408Project_Server
                     }
                     else if(messages[0] == "DISCONNECTED")
                     {
+                        string username = messages[1];
+                        logged.clientList.Remove(username);
+                        
                         richTextBox_Console.AppendText(messages[1] + " has disconnected.\n");
                     }
                 }
@@ -144,7 +163,7 @@ namespace CS408Project_Server
                 {
                     if (!terminating)
                     {
-                        richTextBox_Console.AppendText("Client has disconnected.\n");
+                        //richTextBox_Console.AppendText("Client has disconnected.\n");
                     }
                     thisClient.Close();
                     clientSockets.Remove(thisClient);
@@ -212,6 +231,18 @@ namespace CS408Project_Server
 
         private bool isUsernameExist(string username)
         {
+            logged.isExists = false;
+            foreach (var item in logged.clientList)
+            {
+                if(item == username)
+                {
+                    logged.isExists = true;
+                    return false;
+                }
+            }
+
+            logged.clientList.Add(username);
+
             Console.WriteLine("3");
             var lines = File.ReadLines(@"../../user-db.txt");
             foreach (var line in lines)
