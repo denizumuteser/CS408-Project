@@ -74,7 +74,7 @@ namespace CS408Project_Client
                 {
                     Byte[] buffer = new Byte[4096];
                     clientSocket.Receive(buffer);
-
+                    Console.WriteLine(buffer);
                     string incomingMessage = Encoding.Default.GetString(buffer);
                     incomingMessage = incomingMessage.Substring(0, incomingMessage.IndexOf("\0"));
                     String[] messages = incomingMessage.Split('|');
