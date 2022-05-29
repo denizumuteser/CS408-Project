@@ -35,6 +35,7 @@ namespace CS408Project_Server
             Control.CheckForIllegalCrossThreadCalls = false;
             this.FormClosing += new FormClosingEventHandler(Form1_FormClosing);
             Console.WriteLine("Started");
+            addFriend("lili", "deniz");
             InitializeComponent();
         }
 
@@ -204,6 +205,32 @@ namespace CS408Project_Server
             }
         }
 
+        private int deletePost(string username, int postid)
+        {
+            var lineFile = File.ReadAllLines(@"../../posts.log");
+            List<string> lines = new List<string>(lineFile);
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string line = lines[i];
+           
+                int lineid = 0;
+                string[] currentline = line.Split('|');
+                string usernameOnLine = currentline[0];
+                Int32.TryParse(currentline[1], out lineid);
+                if (lineid == postid && username == usernameOnLine)
+                {
+                    //delete post
+                    lines.RemoveAt(i);
+                    //close file
+                    File.WriteAllLines(@"../../posts.log", lines.ToArray());
+                    return 1;
+                }
+            }
+                //failed
+                return -1;
+        }
+
         private int getLastPostId()
         {
             Console.WriteLine("2");
@@ -211,9 +238,54 @@ namespace CS408Project_Server
             var lines = File.ReadLines(@"../../posts.log");
             foreach (var line in lines)
             {
-                lastid += 1;
+                int lineid = 0; 
+                Int32.TryParse((line.Split('|')[1]), out lineid);
+                if (lineid > lastid)
+                {
+                    lastid = lineid;
+                }
             }
             return lastid;
+        }
+
+        private int addFriend(string username, string friendname)
+        {
+            if (!File.Exists(@"../../friends.txt"))
+            {
+                Console.WriteLine("no path");
+            }            
+            var lineFile = File.ReadAllLines(@"../../friends.txt");
+            List<string> lines = new List<string>(lineFile);
+
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string line = lines[i];
+
+                string[] currentline = line.Split('$');
+                string usernameOnLine = currentline[0];
+                string[] userfriends = currentline[1].Split('|');
+                
+                if (username == usernameOnLine)
+                {//user already exists
+                    //on users line
+                    Array.Resize(ref userfriends, userfriends.Length + 1);
+                    userfriends[userfriends.Length - 1] = friendname;
+                    string newFriendsLine = String.Join("|", userfriends.ToArray());
+                    Console.WriteLine(newFriendsLine);
+                    lines[i] = usernameOnLine + "$" + newFriendsLine;
+                    Console.WriteLine(lines[i]);
+                    File.WriteAllLines(@"../../friends.txt", lines.ToArray());
+                    return 1;
+                }
+            }
+            //user not on list
+            //add new line
+            Console.WriteLine(1);
+            using (StreamWriter w = File.AppendText(@"../../friends.txt"))
+            {
+                w.WriteLine(username+"$"+friendname);
+            }
+            return 1;
         }
 
         private void Form1_FormClosing(object sender, System.ComponentModel.CancelEventArgs e)
