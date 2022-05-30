@@ -12,10 +12,6 @@ using System.Windows.Forms;
 
 namespace CS408Project_Client
 {
-
-
-    
-
     public partial class Form1 : Form
     {
         bool terminating = false;
@@ -37,6 +33,7 @@ namespace CS408Project_Client
             int portNumber;
             string username = textBoxUsername.Text;
             string header = "CONNECT_REQUEST";
+            //string headerListReq = "REQUESTFRIENDS";
 
             if(username == "")
             {
@@ -51,6 +48,8 @@ namespace CS408Project_Client
                     Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
 
                     clientSocket.Send(buffer);
+
+                 
 
                     //textBoxUsername.Enabled = true;
 
@@ -97,7 +96,7 @@ namespace CS408Project_Client
                         textBoxIP.Enabled = false;
                         textBoxPort.Enabled = false;
                         textBoxUsername.Enabled = false;
-                        
+
                         textBoxPost.Enabled = true;
                         buttonAllPosts.Enabled = true;
                         buttonSend.Enabled = true;
@@ -111,7 +110,7 @@ namespace CS408Project_Client
                         //attemptingConnect = false;
                     }
 
-                    else if (incomingMessage[0] == '2')
+                    else if (incomingMessage[0] == '2') //retreive all post
                     {
                         string[] messages = incomingMessage.Split('$');
                         string username = textBoxUsername.Text;
@@ -119,12 +118,12 @@ namespace CS408Project_Client
                         richTextBox.AppendText("Showing all posts from clients:\n");
 
 
-                        for (int i = 0; i<allPosts.Length-1; i++)
+                        for (int i = 0; i < allPosts.Length - 1; i++)
                         {
                             //Console.WriteLine(allPosts[i]);
                             string[] messageParts = allPosts[i].Split('|');
 
-                            if(messageParts[0] == username)
+                            if (messageParts[0] == username)
                             {
                                 continue;
                             }
@@ -135,10 +134,76 @@ namespace CS408Project_Client
                         }
                     }
 
-                    else if (incomingMessage[0] == '3')
+                    else if (incomingMessage[0] == '3') //deletePost, 
                     {
                         string[] messages = incomingMessage.Split('|');
                         richTextBox.AppendText("[Server]: " + messages[1]);
+                    }
+
+                    else if (incomingMessage[0] == '4') //show your friend list
+                    {
+
+                        listBoxOfFriends.Items.Clear();
+
+                        string[] messages = incomingMessage.Split('$');
+                        string[] firstDivision = messages[1].Split('|');
+
+                        for (int i = 0; i < firstDivision.Length; i++)
+                        {
+                            listBoxOfFriends.Items.Add(messages[i]);
+                        }
+
+                    }
+                    else if (incomingMessage[0] == '6') //friendpost
+                    {
+
+                        string[] messages = incomingMessage.Split('$');
+                        string username = textBoxUsername.Text;
+                        String[] allPosts = messages[1].Split('\n');
+                        richTextBox.AppendText("Showing all posts from clients:\n");
+
+
+                        for (int i = 0; i < allPosts.Length - 1; i++)
+                        {
+                            //Console.WriteLine(allPosts[i]);
+                            string[] messageParts = allPosts[i].Split('|');
+
+                            foreach (var user in listBoxOfFriends.Items)
+                            {
+                                if (messageParts[0] == username)
+                                {
+                                    richTextBox.AppendText("Username: " + messageParts[0] + '\n');
+                                    richTextBox.AppendText("Post ID: " + messageParts[1] + '\n');
+                                    richTextBox.AppendText("Post: " + messageParts[2] + '\n');
+                                    richTextBox.AppendText("Time: " + messageParts[3] + "\n\n");
+                                }
+                            }
+                        }
+                    }
+
+                    else if (incomingMessage[0] == '7') //mypost
+                    {
+
+                        string[] messages = incomingMessage.Split('$');
+                        string username = textBoxUsername.Text;
+                        String[] allPosts = messages[1].Split('\n');
+                        richTextBox.AppendText("Showing all posts from clients:\n");
+
+
+                        for (int i = 0; i < allPosts.Length - 1; i++)
+                        {
+                            //Console.WriteLine(allPosts[i]);
+                            string[] messageParts = allPosts[i].Split('|');
+
+                            if (messageParts[0] == username)
+                            {
+                                richTextBox.AppendText("Username: " + messageParts[0] + '\n');
+                                richTextBox.AppendText("Post ID: " + messageParts[1] + '\n');
+                                richTextBox.AppendText("Post: " + messageParts[2] + '\n');
+                                richTextBox.AppendText("Time: " + messageParts[3] + "\n\n");
+                            }
+
+                        }
                     }
                 }
                 catch
@@ -183,7 +248,7 @@ namespace CS408Project_Client
                 richTextBox.AppendText(username + ": " + message + '\n');
             }
         }
-
+        /*
         private void buttonAllPosts_Click(object sender, EventArgs e)
         {
             string username = textBoxUsername.Text;
@@ -196,6 +261,7 @@ namespace CS408Project_Client
                 clientSocket.Send(buffer);
             }
         }
+        */
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
@@ -236,6 +302,89 @@ namespace CS408Project_Client
             //attemptingConnect = false;
             terminating = true;
             Environment.Exit(0);
+        }
+
+        private void buttonAddFriend_Click_1(object sender, EventArgs e)
+        {
+            if (connected)
+            {
+                string header = "ADDFRIEND";
+                string myUsername = textBoxUsername.Text;
+                string friendUsername = textBoxAddFriend.Text;
+                Byte[] buffer = Encoding.Default.GetBytes(header + '|' + myUsername + '|' +  friendUsername);
+                clientSocket.Send(buffer);
+
+
+            }
+        }
+
+        private void buttonDeletePost_Click(object sender, EventArgs e)
+        {
+            if (connected)
+            {
+                string header = "DELETEPOST";
+                string myUsername = textBoxUsername.Text;
+                string toBeDeletedID = textBoxPostDelete.Text;
+                Byte[] buffer = Encoding.Default.GetBytes(header + '|' + myUsername + '|' + toBeDeletedID);
+                clientSocket.Send(buffer);
+            }
+
+        }
+
+        private void buttonFriendsPosts_Click(object sender, EventArgs e)
+        {
+            string username = textBoxUsername.Text;
+            string header = "RETRIEVE_FRIENDPOST";
+
+            if (connected)
+            {
+                string toSend = header + "|" + username;
+                Byte[] buffer = Encoding.Default.GetBytes(toSend);
+                clientSocket.Send(buffer);
+            }
+
+        }
+        
+      
+        private void buttonAllPosts_Click_1(object sender, EventArgs e)
+        {
+            string username = textBoxUsername.Text;
+            string header = "RETRIEVE_ALL";
+
+            if (connected)
+            {
+                string toSend = header + "|" + username;
+                Byte[] buffer = Encoding.Default.GetBytes(toSend);
+                clientSocket.Send(buffer);
+            }
+
+        }
+
+        private void buttonMyPosts_Click(object sender, EventArgs e)
+        {
+            string username = textBoxUsername.Text;
+            string header = "RETRIEVE_MYPOST";
+
+            if (connected)
+            {
+                string toSend = header + "|" + username;
+                Byte[] buffer = Encoding.Default.GetBytes(toSend);
+                clientSocket.Send(buffer);
+            }
+
+        }
+
+        private void buttonRemoveFriend_Click(object sender, EventArgs e)
+        {
+            if (connected)
+            {
+                string header = "REMOVEFRIEND";
+                string myUsername = textBoxUsername.Text;
+                string friendUsername = listBoxOfFriends.Text;
+                Byte[] buffer = Encoding.Default.GetBytes(header + '|' + myUsername + '|' + friendUsername);
+                clientSocket.Send(buffer);
+            }
+
         }
     }
 }
