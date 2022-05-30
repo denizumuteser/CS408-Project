@@ -29,6 +29,7 @@ namespace CS408Project_Client
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.textBoxIP = new System.Windows.Forms.TextBox();
             this.textBoxPort = new System.Windows.Forms.TextBox();
             this.textBoxUsername = new System.Windows.Forms.TextBox();
@@ -41,7 +42,18 @@ namespace CS408Project_Client
             this.buttonConnect = new System.Windows.Forms.Button();
             this.buttonDisconnect = new System.Windows.Forms.Button();
             this.buttonSend = new System.Windows.Forms.Button();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.buttonRemoveFriend = new System.Windows.Forms.Button();
+            this.buttonFriendsPosts = new System.Windows.Forms.Button();
+            this.buttonMyPosts = new System.Windows.Forms.Button();
+            this.textBoxPostDelete = new System.Windows.Forms.TextBox();
+            this.textBoxAddFriend = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.buttonAllPosts = new System.Windows.Forms.Button();
+            this.buttonAddFriend = new System.Windows.Forms.Button();
+            this.buttonDeletePost = new System.Windows.Forms.Button();
+            this.listBoxOfFriends = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // textBoxIP
@@ -95,7 +107,7 @@ namespace CS408Project_Client
             // textBoxPost
             // 
             this.textBoxPost.Enabled = false;
-            this.textBoxPost.Location = new System.Drawing.Point(99, 355);
+            this.textBoxPost.Location = new System.Drawing.Point(99, 456);
             this.textBoxPost.Name = "textBoxPost";
             this.textBoxPost.Size = new System.Drawing.Size(156, 20);
             this.textBoxPost.TabIndex = 6;
@@ -103,15 +115,15 @@ namespace CS408Project_Client
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(28, 358);
+            this.label4.Location = new System.Drawing.Point(28, 505);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(31, 13);
+            this.label4.Size = new System.Drawing.Size(45, 13);
             this.label4.TabIndex = 7;
-            this.label4.Text = "Post:";
+            this.label4.Text = "Post ID:";
             // 
             // richTextBox
             // 
-            this.richTextBox.Location = new System.Drawing.Point(377, 39);
+            this.richTextBox.Location = new System.Drawing.Point(434, 32);
             this.richTextBox.Name = "richTextBox";
             this.richTextBox.ReadOnly = true;
             this.richTextBox.Size = new System.Drawing.Size(287, 360);
@@ -142,7 +154,7 @@ namespace CS408Project_Client
             // buttonSend
             // 
             this.buttonSend.Enabled = false;
-            this.buttonSend.Location = new System.Drawing.Point(274, 353);
+            this.buttonSend.Location = new System.Drawing.Point(274, 458);
             this.buttonSend.Name = "buttonSend";
             this.buttonSend.Size = new System.Drawing.Size(75, 23);
             this.buttonSend.TabIndex = 11;
@@ -150,23 +162,136 @@ namespace CS408Project_Client
             this.buttonSend.UseVisualStyleBackColor = true;
             this.buttonSend.Click += new System.EventHandler(this.buttonSend_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // buttonRemoveFriend
+            // 
+            this.buttonRemoveFriend.Enabled = false;
+            this.buttonRemoveFriend.Location = new System.Drawing.Point(125, 347);
+            this.buttonRemoveFriend.Name = "buttonRemoveFriend";
+            this.buttonRemoveFriend.Size = new System.Drawing.Size(105, 23);
+            this.buttonRemoveFriend.TabIndex = 16;
+            this.buttonRemoveFriend.Text = "Remove Friend";
+            this.buttonRemoveFriend.UseVisualStyleBackColor = true;
+            this.buttonRemoveFriend.Click += new System.EventHandler(this.buttonRemoveFriend_Click);
+            // 
+            // buttonFriendsPosts
+            // 
+            this.buttonFriendsPosts.Enabled = false;
+            this.buttonFriendsPosts.Location = new System.Drawing.Point(594, 426);
+            this.buttonFriendsPosts.Name = "buttonFriendsPosts";
+            this.buttonFriendsPosts.Size = new System.Drawing.Size(112, 23);
+            this.buttonFriendsPosts.TabIndex = 17;
+            this.buttonFriendsPosts.Text = "Firend\'s Posts";
+            this.buttonFriendsPosts.UseVisualStyleBackColor = true;
+            this.buttonFriendsPosts.Click += new System.EventHandler(this.buttonFriendsPosts_Click);
+            // 
+            // buttonMyPosts
+            // 
+            this.buttonMyPosts.Enabled = false;
+            this.buttonMyPosts.Location = new System.Drawing.Point(544, 487);
+            this.buttonMyPosts.Name = "buttonMyPosts";
+            this.buttonMyPosts.Size = new System.Drawing.Size(75, 23);
+            this.buttonMyPosts.TabIndex = 18;
+            this.buttonMyPosts.Text = "My Posts";
+            this.buttonMyPosts.UseVisualStyleBackColor = true;
+            this.buttonMyPosts.Click += new System.EventHandler(this.buttonMyPosts_Click);
+            // 
+            // textBoxPostDelete
+            // 
+            this.textBoxPostDelete.Enabled = false;
+            this.textBoxPostDelete.Location = new System.Drawing.Point(99, 502);
+            this.textBoxPostDelete.Name = "textBoxPostDelete";
+            this.textBoxPostDelete.Size = new System.Drawing.Size(156, 20);
+            this.textBoxPostDelete.TabIndex = 19;
+            // 
+            // textBoxAddFriend
+            // 
+            this.textBoxAddFriend.Enabled = false;
+            this.textBoxAddFriend.Location = new System.Drawing.Point(99, 408);
+            this.textBoxAddFriend.Name = "textBoxAddFriend";
+            this.textBoxAddFriend.Size = new System.Drawing.Size(156, 20);
+            this.textBoxAddFriend.TabIndex = 20;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(42, 463);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(31, 13);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Post:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(28, 411);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(58, 13);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Username:";
+            // 
             // buttonAllPosts
             // 
             this.buttonAllPosts.Enabled = false;
-            this.buttonAllPosts.Location = new System.Drawing.Point(191, 398);
+            this.buttonAllPosts.Location = new System.Drawing.Point(459, 426);
             this.buttonAllPosts.Name = "buttonAllPosts";
-            this.buttonAllPosts.Size = new System.Drawing.Size(158, 23);
-            this.buttonAllPosts.TabIndex = 12;
-            this.buttonAllPosts.Text = "Retrieve All Posts";
+            this.buttonAllPosts.Size = new System.Drawing.Size(98, 23);
+            this.buttonAllPosts.TabIndex = 23;
+            this.buttonAllPosts.Text = "All Posts";
             this.buttonAllPosts.UseVisualStyleBackColor = true;
-            this.buttonAllPosts.Click += new System.EventHandler(this.buttonAllPosts_Click);
+            this.buttonAllPosts.Click += new System.EventHandler(this.buttonAllPosts_Click_1);
+            // 
+            // buttonAddFriend
+            // 
+            this.buttonAddFriend.Enabled = false;
+            this.buttonAddFriend.Location = new System.Drawing.Point(274, 406);
+            this.buttonAddFriend.Name = "buttonAddFriend";
+            this.buttonAddFriend.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddFriend.TabIndex = 24;
+            this.buttonAddFriend.Text = "Add Friend";
+            this.buttonAddFriend.UseVisualStyleBackColor = true;
+            this.buttonAddFriend.Click += new System.EventHandler(this.buttonAddFriend_Click_1);
+            // 
+            // buttonDeletePost
+            // 
+            this.buttonDeletePost.Enabled = false;
+            this.buttonDeletePost.Location = new System.Drawing.Point(274, 505);
+            this.buttonDeletePost.Name = "buttonDeletePost";
+            this.buttonDeletePost.Size = new System.Drawing.Size(75, 23);
+            this.buttonDeletePost.TabIndex = 25;
+            this.buttonDeletePost.Text = "Delete";
+            this.buttonDeletePost.UseVisualStyleBackColor = true;
+            this.buttonDeletePost.Click += new System.EventHandler(this.buttonDeletePost_Click);
+            // 
+            // listBoxOfFriends
+            // 
+            this.listBoxOfFriends.FormattingEnabled = true;
+            this.listBoxOfFriends.Location = new System.Drawing.Point(111, 195);
+            this.listBoxOfFriends.Name = "listBoxOfFriends";
+            this.listBoxOfFriends.Size = new System.Drawing.Size(129, 134);
+            this.listBoxOfFriends.Sorted = true;
+            this.listBoxOfFriends.TabIndex = 26;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(708, 450);
+            this.ClientSize = new System.Drawing.Size(785, 626);
+            this.Controls.Add(this.listBoxOfFriends);
+            this.Controls.Add(this.buttonDeletePost);
+            this.Controls.Add(this.buttonAddFriend);
             this.Controls.Add(this.buttonAllPosts);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.textBoxAddFriend);
+            this.Controls.Add(this.textBoxPostDelete);
+            this.Controls.Add(this.buttonMyPosts);
+            this.Controls.Add(this.buttonFriendsPosts);
+            this.Controls.Add(this.buttonRemoveFriend);
             this.Controls.Add(this.buttonSend);
             this.Controls.Add(this.buttonDisconnect);
             this.Controls.Add(this.buttonConnect);
@@ -200,7 +325,18 @@ namespace CS408Project_Client
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.Button buttonDisconnect;
         private System.Windows.Forms.Button buttonSend;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Button buttonRemoveFriend;
+        private System.Windows.Forms.Button buttonFriendsPosts;
+        private System.Windows.Forms.Button buttonMyPosts;
+        private System.Windows.Forms.TextBox textBoxPostDelete;
+        private System.Windows.Forms.TextBox textBoxAddFriend;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button buttonAllPosts;
+        private System.Windows.Forms.Button buttonAddFriend;
+        private System.Windows.Forms.Button buttonDeletePost;
+        private System.Windows.Forms.ListBox listBoxOfFriends;
     }
 }
 
