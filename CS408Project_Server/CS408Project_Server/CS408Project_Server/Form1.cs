@@ -176,6 +176,8 @@ namespace CS408Project_Server
                     {
                         string username = messages[1];
                         clientList.Remove(username);
+                        clientSockets.Remove(thisClient);
+                        clientDict.Remove(thisClient);
 
                         richTextBox_Console.AppendText(messages[1] + " has disconnected.\n");
                     }
@@ -183,18 +185,25 @@ namespace CS408Project_Server
                     {
                         string username = messages[1];
                         string friend = messages[2];
-                        
                         if (username == friend)
                         {//failed
-                            richTextBox_Console.AppendText("You cannot send a request to yourself\n");
-                            logtoclient = Encoding.Default.GetBytes("3|You cannot send a request to yourself\n");
+                            richTextBox_Console.AppendText("You cannot send a request to yourself.\n");
+                            logtoclient = Encoding.Default.GetBytes("3|You cannot send a request to yourself.\n");
+                            thisClient.Send(logtoclient);
+                        }
+                        else if(!isUsernameExistDatabase(friend))
+                        {
+                            richTextBox_Console.AppendText("User Does Not Exist.\n");
+                            logtoclient = Encoding.Default.GetBytes("3|User Does Not Exist.\n");
                             thisClient.Send(logtoclient);
                         }
                         else
                         {
                             addFriend(username, friend);
+                            addFriend(friend, username);
                             //sent to user
-                            logtoclient = Encoding.Default.GetBytes("3|You have added " + friend + " as a friend\n");
+                            richTextBox_Console.AppendText(username + " has added "+ friend +" as a friend.\n");
+                            logtoclient = Encoding.Default.GetBytes("3|You have added " + friend + " as a friend.\n");
                             thisClient.Send(logtoclient);
                             //update friend list
                             string friendlist = getFriends(username);
@@ -207,18 +216,22 @@ namespace CS408Project_Server
                             //sent to users friend
                             foreach (var client in clientDict)
                             {
-
+                                Console.WriteLine(client.Value);
                                 if (client.Value == friend)
                                 {
                                     logtoclient = Encoding.Default.GetBytes("3|" + username + " added you as a friend. You are friend now.\n");
                                     client.Key.Send(logtoclient);
                                     //update friend list
-                                    friendlist = getFriends(username);
+                                
+                                
+                                    friendlist = getFriends(friend);
+                                    Console.WriteLine(friendlist);
                                     if (friendlist != "")
                                     {
                                         //send friends to client
-                                        logtoclient = Encoding.Default.GetBytes("4$" + friendlist);
-                                        thisClient.Send(logtoclient);
+                                        Console.WriteLine("sent");
+                                        Byte[] logtoclient2 = Encoding.Default.GetBytes("4$" + friendlist);
+                                        client.Key.Send(logtoclient2);
                                     }
                                 }
                             }
@@ -231,13 +244,16 @@ namespace CS408Project_Server
                         Byte[] logtoclient2;
                         if (username == friend)
                         {//failed
-                            richTextBox_Console.AppendText("You cannot send a request to yourself");
-                            logtoclient2 = Encoding.Default.GetBytes("3|You cannot send a request to yourself");
+                            richTextBox_Console.AppendText("You cannot send a request to yourself.\n");
+                            logtoclient2 = Encoding.Default.GetBytes("3|You cannot send a request to yourself.\n");
                             thisClient.Send(logtoclient2);
                         }
                         removeFriend(username, friend);
+                        removeFriend(friend, username);
                         //sent to user
-                        logtoclient2 = Encoding.Default.GetBytes("3|You have removed " + friend + " from friends");
+                        richTextBox_Console.AppendText(username + " removed " + friend + "from friends.\n");
+
+                        logtoclient2 = Encoding.Default.GetBytes("3|You have been removed by " + friend + " from friends.\n");
                         thisClient.Send(logtoclient2);
                         //update friend list
                         string friendlist = getFriends(username);
@@ -255,18 +271,23 @@ namespace CS408Project_Server
                         //sent to users friend
                         foreach (var client in clientDict)
                         {
-
+                            Console.WriteLine(client.Value);
                             if (client.Value == friend)
                             {
-                                logtoclient2 = Encoding.Default.GetBytes("3|" + username + " removed you from friends.");
+                                logtoclient2 = Encoding.Default.GetBytes("3|" + username + " removed you from friends.\n");
                                 client.Key.Send(logtoclient2);
                                 //update friend list
-                                friendlist = getFriends(username);
+                                friendlist = getFriends(friend);
                                 if (friendlist != "")
                                 {
                                     //send friends to client
                                     logtoclient = Encoding.Default.GetBytes("4$" + friendlist);
-                                    thisClient.Send(logtoclient);
+                                    client.Key.Send(logtoclient);
+                                }
+                                else //no friend left
+                                {
+                                    logtoclient = Encoding.Default.GetBytes("5$");
+                                    client.Key.Send(logtoclient);
                                 }
                             }
                         }
@@ -294,23 +315,26 @@ namespace CS408Project_Server
                         if (status == 1)//deleted
                         {
                             //server log
-                            richTextBox_Console.AppendText("3|Post with id: " + toBeDeletedID + " is deleted successfully.\n");
-                            messageToSend = "Post with id: " + toBeDeletedID + " is deleted successfully.\n";
+                            richTextBox_Console.AppendText("Post with id: " + toBeDeletedID + " is deleted successfully.\n");
+                            messageToSend = "3|Post with id: " + toBeDeletedID + " is deleted successfully.\n";
+                            
 
                         }
                         else if (status == 2)//post is not yours
                         {
-                            richTextBox_Console.AppendText("3|Post with id: " + toBeDeletedID + "is not " + username + "s!\n");
-                            messageToSend = "Post with id: " + toBeDeletedID + "is not yours!";
+                            richTextBox_Console.AppendText("3|Post with id: " + toBeDeletedID + " is not " + username + "s!\n");
+                            messageToSend = "3|Post with id: " + toBeDeletedID + "is not yours!";
+                            
                         }
                         else if (status == 3)//no post with such id
                         {
                             richTextBox_Console.AppendText("3|Post with id: " + toBeDeletedID + " does not exist!\n");
-                            messageToSend = "There is no posts with id: " + toBeDeletedID;
+                            messageToSend = "3|There is no posts with id: " + toBeDeletedID;
+                            
 
                         }
                         if (messageToSend != "")
-                        {
+                        {   
                             logtoclient = Encoding.Default.GetBytes(messageToSend);
                             thisClient.Send(logtoclient);
                         }
@@ -399,9 +423,14 @@ namespace CS408Project_Server
                     File.WriteAllLines(@"../../posts.log", lines.ToArray());
                     return 1;
                 }
+                else if(lineid == postid && username != usernameOnLine)
+                {
+                    return 2;
+                }
+
             }
             //failed
-            return -1;
+            return 3;
         }
 
         private int getLastPostId()
@@ -504,7 +533,6 @@ namespace CS408Project_Server
             }
             //user not on list
             //add new line
-            Console.WriteLine(1);
             using (StreamWriter w = File.AppendText(@"../../friends.txt"))
             {
                 w.WriteLine(username+"$"+friendname);

@@ -148,7 +148,7 @@ namespace CS408Project_Client
 
                     else if (incomingMessage[0] == '4') //show your friend list
                     {
-
+                        Console.WriteLine(incomingMessage);
                         listBoxOfFriends.Items.Clear();
 
                         string[] messages = incomingMessage.Split('$');
@@ -177,22 +177,23 @@ namespace CS408Project_Client
 
                     else if (incomingMessage[0] == '6') //friendpost
                     {
-
+                        
                         string[] messages = incomingMessage.Split('$');
                         string username = textBoxUsername.Text;
-                        String[] allPosts = messages[1].Split('\n');
-                        richTextBox.AppendText("Showing all posts from clients:\n");
+                        string[] friendsPosts = messages[1].Split('\n');
+                        richTextBox.AppendText("Showing all posts from friends:\n");
 
-
-                        for (int i = 0; i < allPosts.Length - 1; i++)
+                        
+                        for (int i = 0; i < friendsPosts.Length - 1; i++)
                         {
-                            //Console.WriteLine(allPosts[i]);
-                            string[] messageParts = allPosts[i].Split('|');
-
+                            
+                            string[] messageParts = friendsPosts[i].Split('|');
+                            
                             foreach (var user in listBoxOfFriends.Items)
                             {
-                                if (messageParts[0] == username)
+                                if (messageParts[0] ==  user.ToString())
                                 {
+                                    
                                     richTextBox.AppendText("Username: " + messageParts[0] + '\n');
                                     richTextBox.AppendText("Post ID: " + messageParts[1] + '\n');
                                     richTextBox.AppendText("Post: " + messageParts[2] + '\n');
@@ -269,20 +270,6 @@ namespace CS408Project_Client
                 richTextBox.AppendText(username + ": " + message + '\n');
             }
         }
-        /*
-        private void buttonAllPosts_Click(object sender, EventArgs e)
-        {
-            string username = textBoxUsername.Text;
-            string header = "RETRIEVE_ALL";
-
-            if (connected)
-            {
-                string toSend = header + "|" + username;
-                Byte[] buffer = Encoding.Default.GetBytes(toSend);
-                clientSocket.Send(buffer);
-            }
-        }
-        */
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
@@ -369,7 +356,7 @@ namespace CS408Project_Client
         private void buttonFriendsPosts_Click(object sender, EventArgs e)
         {
             string username = textBoxUsername.Text;
-            string header = "RETRIEVE_FRIENDPOST";
+            string header = "RETRIEVE_FRIENDSPOST";
 
             if (connected)
             {
