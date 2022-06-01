@@ -169,7 +169,6 @@ namespace CS408Project_Client
             // 
             // buttonRemoveFriend
             // 
-            this.buttonRemoveFriend.Enabled = false;
             this.buttonRemoveFriend.Location = new System.Drawing.Point(125, 347);
             this.buttonRemoveFriend.Name = "buttonRemoveFriend";
             this.buttonRemoveFriend.Size = new System.Drawing.Size(105, 23);
@@ -180,7 +179,6 @@ namespace CS408Project_Client
             // 
             // buttonFriendsPosts
             // 
-            this.buttonFriendsPosts.Enabled = false;
             this.buttonFriendsPosts.Location = new System.Drawing.Point(594, 426);
             this.buttonFriendsPosts.Name = "buttonFriendsPosts";
             this.buttonFriendsPosts.Size = new System.Drawing.Size(112, 23);
@@ -191,7 +189,6 @@ namespace CS408Project_Client
             // 
             // buttonMyPosts
             // 
-            this.buttonMyPosts.Enabled = false;
             this.buttonMyPosts.Location = new System.Drawing.Point(544, 487);
             this.buttonMyPosts.Name = "buttonMyPosts";
             this.buttonMyPosts.Size = new System.Drawing.Size(75, 23);
@@ -202,7 +199,6 @@ namespace CS408Project_Client
             // 
             // textBoxPostDelete
             // 
-            this.textBoxPostDelete.Enabled = false;
             this.textBoxPostDelete.Location = new System.Drawing.Point(99, 502);
             this.textBoxPostDelete.Name = "textBoxPostDelete";
             this.textBoxPostDelete.Size = new System.Drawing.Size(156, 20);
@@ -210,7 +206,6 @@ namespace CS408Project_Client
             // 
             // textBoxAddFriend
             // 
-            this.textBoxAddFriend.Enabled = false;
             this.textBoxAddFriend.Location = new System.Drawing.Point(99, 408);
             this.textBoxAddFriend.Name = "textBoxAddFriend";
             this.textBoxAddFriend.Size = new System.Drawing.Size(156, 20);
@@ -247,7 +242,6 @@ namespace CS408Project_Client
             // 
             // buttonAddFriend
             // 
-            this.buttonAddFriend.Enabled = false;
             this.buttonAddFriend.Location = new System.Drawing.Point(274, 406);
             this.buttonAddFriend.Name = "buttonAddFriend";
             this.buttonAddFriend.Size = new System.Drawing.Size(75, 23);
@@ -258,7 +252,6 @@ namespace CS408Project_Client
             // 
             // buttonDeletePost
             // 
-            this.buttonDeletePost.Enabled = false;
             this.buttonDeletePost.Location = new System.Drawing.Point(274, 505);
             this.buttonDeletePost.Name = "buttonDeletePost";
             this.buttonDeletePost.Size = new System.Drawing.Size(75, 23);

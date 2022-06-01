@@ -113,6 +113,14 @@ namespace CS408Project_Server
                             logtoclient = Encoding.Default.GetBytes("1|Hello " + username + "! You are connected to the server.\n");
                             thisClient.Send(logtoclient);
                             clientDict.Add(thisClient, username);
+                            //sending friends
+                            string friendlist = getFriends(username);
+                            if (friendlist != "")
+                            {
+                                //send friends to client
+                                logtoclient = Encoding.Default.GetBytes("4$" + friendlist);
+                                thisClient.Send(logtoclient);
+                            }
                         }
                         else if (isUsernameExistCurrently(username))
                         {
@@ -178,15 +186,15 @@ namespace CS408Project_Server
                         
                         if (username == friend)
                         {//failed
-                            richTextBox_Console.AppendText("You cannot send a request to yourself");
-                            logtoclient = Encoding.Default.GetBytes("3|You cannot send a request to yourself");
+                            richTextBox_Console.AppendText("You cannot send a request to yourself\n");
+                            logtoclient = Encoding.Default.GetBytes("3|You cannot send a request to yourself\n");
                             thisClient.Send(logtoclient);
                         }
                         else
                         {
                             addFriend(username, friend);
                             //sent to user
-                            logtoclient = Encoding.Default.GetBytes("3|You have added " + friend + " as a friend");
+                            logtoclient = Encoding.Default.GetBytes("3|You have added " + friend + " as a friend\n");
                             thisClient.Send(logtoclient);
                             //update friend list
                             string friendlist = getFriends(username);
@@ -202,7 +210,7 @@ namespace CS408Project_Server
 
                                 if (client.Value == friend)
                                 {
-                                    logtoclient = Encoding.Default.GetBytes("3|" + username + " added you as a friend. You are friend now.");
+                                    logtoclient = Encoding.Default.GetBytes("3|" + username + " added you as a friend. You are friend now.\n");
                                     client.Key.Send(logtoclient);
                                     //update friend list
                                     friendlist = getFriends(username);
@@ -237,6 +245,11 @@ namespace CS408Project_Server
                         {
                             //send friends to client
                             logtoclient = Encoding.Default.GetBytes("4$" + friendlist);
+                            thisClient.Send(logtoclient);
+                        }
+                        else //no friend left
+                        {
+                            logtoclient = Encoding.Default.GetBytes("5$");
                             thisClient.Send(logtoclient);
                         }
                         //sent to users friend
@@ -428,10 +441,23 @@ namespace CS408Project_Server
                     string[] userfriends = words[1].Split('|');
                     var userfriendslist = userfriends.ToList();
                     userfriendslist.Remove(friendname);
-                    string newFriendsLine = String.Join("|", userfriendslist.ToArray());
-                    lines[i] = usernameOnLine + "$" + newFriendsLine;
-                    File.WriteAllLines(@"../../friends.txt", lines.ToArray());
-                    return 1;
+                    //no friends
+                    if (userfriendslist.Count() < 1)
+                    {
+                        lines.Remove(lines[i]);
+                        File.WriteAllLines(@"../../friends.txt", lines.ToArray());
+                        return 1;
+                    }
+                    else
+                    {
+                        string newFriendsLine = String.Join("|", userfriendslist.ToArray());
+
+                        lines[i] = usernameOnLine + "$" + newFriendsLine;
+                        File.WriteAllLines(@"../../friends.txt", lines.ToArray());
+                        return 1;
+                    }
+                        
+                    
                 }
             }
             return 1;

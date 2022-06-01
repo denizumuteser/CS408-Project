@@ -17,6 +17,7 @@ namespace CS408Project_Client
         bool terminating = false;
         bool connected = false;
         //bool attemptingConnect = false;
+        string user_name;
 
         Socket clientSocket;
         public Form1()
@@ -32,6 +33,7 @@ namespace CS408Project_Client
             string IP = textBoxIP.Text;
             int portNumber;
             string username = textBoxUsername.Text;
+            user_name = username;
             string header = "CONNECT_REQUEST";
             //string headerListReq = "REQUESTFRIENDS";
 
@@ -46,10 +48,10 @@ namespace CS408Project_Client
                 {
                     clientSocket.Connect(IP, portNumber);
                     Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
-
                     clientSocket.Send(buffer);
 
-                 
+                    //buffer = Encoding.Default.GetBytes("REQUESTFRIENDS|" + username);
+                    //clientSocket.Send(buffer);
 
                     //textBoxUsername.Enabled = true;
 
@@ -58,6 +60,9 @@ namespace CS408Project_Client
 
                     Thread receiveThread = new Thread(Receive);
                     receiveThread.Start();
+
+                    
+
                 }
                 catch
                 {
@@ -68,6 +73,7 @@ namespace CS408Project_Client
             {
                 richTextBox.AppendText("Check the port number!\n");
             }
+
         }
 
         private void Receive()
@@ -102,7 +108,7 @@ namespace CS408Project_Client
                         buttonSend.Enabled = true;
                     }
 
-                    else if (incomingMessage[0] == '0')
+                    else if (incomingMessage[0] == '0') //connection
                     {
                         string[] messages = incomingMessage.Split('|');
                         richTextBox.AppendText("[Server]: " + messages[1]);
@@ -114,7 +120,7 @@ namespace CS408Project_Client
                     {
                         string[] messages = incomingMessage.Split('$');
                         string username = textBoxUsername.Text;
-                        String[] allPosts = messages[1].Split('\n');
+                        string[] allPosts = messages[1].Split('\n');
                         richTextBox.AppendText("Showing all posts from clients:\n");
 
 
@@ -122,7 +128,7 @@ namespace CS408Project_Client
                         {
                             //Console.WriteLine(allPosts[i]);
                             string[] messageParts = allPosts[i].Split('|');
-
+                            Console.WriteLine(messageParts[1]);
                             if (messageParts[0] == username)
                             {
                                 continue;
@@ -134,7 +140,7 @@ namespace CS408Project_Client
                         }
                     }
 
-                    else if (incomingMessage[0] == '3') //deletePost, 
+                    else if (incomingMessage[0] == '3') 
                     {
                         string[] messages = incomingMessage.Split('|');
                         richTextBox.AppendText("[Server]: " + messages[1]);
@@ -146,14 +152,29 @@ namespace CS408Project_Client
                         listBoxOfFriends.Items.Clear();
 
                         string[] messages = incomingMessage.Split('$');
-                        string[] firstDivision = messages[1].Split('|');
 
-                        for (int i = 0; i < firstDivision.Length; i++)
+                        if (!messages[1].Contains("|"))
                         {
-                            listBoxOfFriends.Items.Add(messages[i]);
+                            listBoxOfFriends.Items.Add(messages[1]);
+                        }
+                        else
+                        {
+                            string[] firstDivision = messages[1].Split('|');
+
+                            for (int i = 0; i < firstDivision.Length; i++)
+                            {
+                                listBoxOfFriends.Items.Add(firstDivision[i]);
+                            }
                         }
 
+                        
+
                     }
+                    else if (incomingMessage[0] == '5')
+                    {//after removing a friend, no friend left
+                        listBoxOfFriends.Items.Clear();
+                    }
+
                     else if (incomingMessage[0] == '6') //friendpost
                     {
 
@@ -265,13 +286,16 @@ namespace CS408Project_Client
 
         private void buttonDisconnect_Click(object sender, EventArgs e)
         {
-            connected = false;
+
             //attemptingConnect = false;
             terminating = true;
+            connected = false;
 
+            listBoxOfFriends.Items.Clear();
             string header = "DISCONNECTED";
-            string username = textBoxUsername.Text;
+            string username = user_name;
             Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
+            //objects are disposed before execution of this function
             clientSocket.Send(buffer);
 
             clientSocket.Close();
@@ -294,7 +318,7 @@ namespace CS408Project_Client
             if (connected)
             {
                 string header = "DISCONNECTED";
-                string username = textBoxUsername.Text;
+                string username = user_name;
                 Byte[] buffer = Encoding.Default.GetBytes(header + '|' + username);
                 clientSocket.Send(buffer);
             }
@@ -311,8 +335,19 @@ namespace CS408Project_Client
                 string header = "ADDFRIEND";
                 string myUsername = textBoxUsername.Text;
                 string friendUsername = textBoxAddFriend.Text;
-                Byte[] buffer = Encoding.Default.GetBytes(header + '|' + myUsername + '|' +  friendUsername);
-                clientSocket.Send(buffer);
+                
+                if (listBoxOfFriends.Items.Contains(friendUsername))
+                {//if already friend
+                    richTextBox.AppendText("You are already friends with " + friendUsername + ".\n");
+                    
+                }
+                else
+                {
+                    Byte[] buffer = Encoding.Default.GetBytes(header + '|' + myUsername + '|' + friendUsername);
+                    clientSocket.Send(buffer);
+                }
+
+                
 
 
             }
@@ -381,8 +416,11 @@ namespace CS408Project_Client
                 string header = "REMOVEFRIEND";
                 string myUsername = textBoxUsername.Text;
                 string friendUsername = listBoxOfFriends.Text;
+                //if (listBoxOfFriends.Items.Contains(friendUsername))
+                //{//if already friend
                 Byte[] buffer = Encoding.Default.GetBytes(header + '|' + myUsername + '|' + friendUsername);
                 clientSocket.Send(buffer);
+                //}
             }
 
         }
