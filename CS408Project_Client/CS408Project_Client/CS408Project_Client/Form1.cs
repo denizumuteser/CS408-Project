@@ -36,8 +36,13 @@ namespace CS408Project_Client
             user_name = username;
             string header = "CONNECT_REQUEST";
             //string headerListReq = "REQUESTFRIENDS";
+            buttonAddFriend.Enabled = true;
+            buttonRemoveFriend.Enabled = true;
+            buttonMyPosts.Enabled = true;
+            buttonFriendsPosts.Enabled = true;
+            buttonDeletePost.Enabled = true;
 
-            if(username == "")
+            if (username == "")
             {
                 richTextBox.AppendText("You must enter a username\n");
             }
@@ -177,6 +182,7 @@ namespace CS408Project_Client
 
                     else if (incomingMessage[0] == '6') //friendpost
                     {
+                        bool anyFriends = false;
                         
                         string[] messages = incomingMessage.Split('$');
                         string username = textBoxUsername.Text;
@@ -188,9 +194,12 @@ namespace CS408Project_Client
                         {
                             
                             string[] messageParts = friendsPosts[i].Split('|');
+
+                          
                             
                             foreach (var user in listBoxOfFriends.Items)
                             {
+                                anyFriends = true;
                                 if (messageParts[0] ==  user.ToString())
                                 {
                                     
@@ -200,6 +209,10 @@ namespace CS408Project_Client
                                     richTextBox.AppendText("Time: " + messageParts[3] + "\n\n");
                                 }
                             }
+                        }
+                        if (!anyFriends)
+                        {
+                            richTextBox.AppendText("[Server]: You don't have any friends :( \n");
                         }
                     }
 
@@ -240,6 +253,7 @@ namespace CS408Project_Client
 
                         buttonDisconnect.Enabled = false;
                         buttonConnect.Enabled = true;
+                       
 
                         textBoxPost.Enabled = false;
                         buttonAllPosts.Enabled = false;
@@ -293,6 +307,11 @@ namespace CS408Project_Client
             textBoxUsername.Enabled = true;
             textBoxIP.Enabled = true;
             textBoxPort.Enabled = true;
+            buttonAddFriend.Enabled = false;
+            buttonRemoveFriend.Enabled = false;
+            buttonMyPosts.Enabled = false;
+            buttonFriendsPosts.Enabled = false;
+            buttonDeletePost.Enabled = false;
 
             buttonAllPosts.Enabled = false;
             buttonSend.Enabled = false;

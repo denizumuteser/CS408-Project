@@ -29,3 +29,14 @@ C:\Users\sarpb\OneDrive\Masaüstü\408-phase-1\CS408-Project\CS408Project_Client
 C:\Users\sarpb\OneDrive\Masaüstü\408-phase-1\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.CoreCompileInputs.cache
 C:\Users\sarpb\OneDrive\Masaüstü\408-phase-1\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.exe
 C:\Users\sarpb\OneDrive\Masaüstü\408-phase-1\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.pdb
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.exe.config
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.exe
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\bin\Debug\CS408Project_Client.pdb
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.AssemblyReference.cache
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.SuggestedBindingRedirects.cache
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Form1.resources
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.Properties.Resources.resources
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.GenerateResource.cache
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.csproj.CoreCompileInputs.cache
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.exe
+C:\Users\sarpb\OneDrive\Masaüstü\final-408\CS408-Project\CS408Project_Client\CS408Project_Client\CS408Project_Client\obj\Debug\CS408Project_Client.pdb

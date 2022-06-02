@@ -323,7 +323,7 @@ namespace CS408Project_Server
                         else if (status == 2)//post is not yours
                         {
                             richTextBox_Console.AppendText("3|Post with id: " + toBeDeletedID + " is not " + username + "s!\n");
-                            messageToSend = "3|Post with id: " + toBeDeletedID + "is not yours!";
+                            messageToSend = "3|Post with id: " + toBeDeletedID + " is not yours!";
                             
                         }
                         else if (status == 3)//no post with such id
